@@ -17,7 +17,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     loadStats();
-  }, [user]);
+  }, [user, loadStats]);
 
   // Get storage key based on current user
   const getStorageKey = () => {

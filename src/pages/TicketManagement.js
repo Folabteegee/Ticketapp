@@ -20,7 +20,7 @@ const TicketManagement = () => {
   // Load tickets when component mounts or user changes
   useEffect(() => {
     loadTickets();
-  }, [user]);
+  }, [user, loadTickets]);
 
   const showToast = (message, type = "success") => {
     setToast({ show: true, message, type });
