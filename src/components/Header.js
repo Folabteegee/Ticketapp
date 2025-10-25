@@ -19,7 +19,7 @@ const Header = () => {
       <div className="container">
         <div className="header-content">
           <Link to="/" className="nav-linki">
-            TicketFlow
+            TicketFloww
           </Link>
 
           {/* Desktop Navigation */}
