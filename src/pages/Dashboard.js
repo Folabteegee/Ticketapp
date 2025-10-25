@@ -16,35 +16,37 @@ const Dashboard = () => {
   });
 
   useEffect(() => {
+    // Get storage key based on current user
+    const getStorageKey = () => {
+      return user ? `tickets_${user.id}` : "tickets";
+    };
+
+    const loadStats = () => {
+      try {
+        const storageKey = getStorageKey();
+        const savedTickets = localStorage.getItem(storageKey);
+        const tickets = savedTickets ? JSON.parse(savedTickets) : [];
+
+        const total = tickets.length;
+        const open = tickets.filter(
+          (ticket) => ticket.status === "open"
+        ).length;
+        const in_progress = tickets.filter(
+          (ticket) => ticket.status === "in_progress"
+        ).length;
+        const closed = tickets.filter(
+          (ticket) => ticket.status === "closed"
+        ).length;
+
+        setStats({ total, open, in_progress, closed });
+      } catch (error) {
+        console.error("Error loading stats:", error);
+        setStats({ total: 0, open: 0, in_progress: 0, closed: 0 });
+      }
+    };
+
     loadStats();
-  }, [user, loadStats]);
-
-  // Get storage key based on current user
-  const getStorageKey = () => {
-    return user ? `tickets_${user.id}` : "tickets";
-  };
-
-  const loadStats = () => {
-    try {
-      const storageKey = getStorageKey();
-      const savedTickets = localStorage.getItem(storageKey);
-      const tickets = savedTickets ? JSON.parse(savedTickets) : [];
-
-      const total = tickets.length;
-      const open = tickets.filter((ticket) => ticket.status === "open").length;
-      const in_progress = tickets.filter(
-        (ticket) => ticket.status === "in_progress"
-      ).length;
-      const closed = tickets.filter(
-        (ticket) => ticket.status === "closed"
-      ).length;
-
-      setStats({ total, open, in_progress, closed });
-    } catch (error) {
-      console.error("Error loading stats:", error);
-      setStats({ total: 0, open: 0, in_progress: 0, closed: 0 });
-    }
-  };
+  }, [user]);
 
   const handleLogout = () => {
     logout();

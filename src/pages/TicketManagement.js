@@ -17,40 +17,39 @@ const TicketManagement = () => {
   );
   const [toast, setToast] = useState({ show: false, message: "", type: "" });
 
-  // Load tickets when component mounts or user changes
   useEffect(() => {
+    // Get storage key based on current user
+    const getStorageKey = () => {
+      return user ? `tickets_${user.id}` : "tickets";
+    };
+
+    const loadTickets = () => {
+      try {
+        const storageKey = getStorageKey();
+        const savedTickets = localStorage.getItem(storageKey);
+
+        if (savedTickets) {
+          setTickets(JSON.parse(savedTickets));
+        } else {
+          setTickets([]);
+        }
+      } catch (error) {
+        console.error("Error loading tickets:", error);
+        setTickets([]);
+      }
+    };
+
     loadTickets();
-  }, [user, loadTickets]);
+  }, [user]);
 
   const showToast = (message, type = "success") => {
     setToast({ show: true, message, type });
     setTimeout(() => setToast({ show: false, message: "", type: "" }), 3000);
   };
 
-  // Get storage key based on current user
-  const getStorageKey = () => {
-    return user ? `tickets_${user.id}` : "tickets";
-  };
-
-  const loadTickets = () => {
-    try {
-      const storageKey = getStorageKey();
-      const savedTickets = localStorage.getItem(storageKey);
-
-      if (savedTickets) {
-        setTickets(JSON.parse(savedTickets));
-      } else {
-        setTickets([]);
-      }
-    } catch (error) {
-      console.error("Error loading tickets:", error);
-      setTickets([]);
-    }
-  };
-
   const saveTickets = (newTickets) => {
     try {
-      const storageKey = getStorageKey();
+      const storageKey = user ? `tickets_${user.id}` : "tickets";
       localStorage.setItem(storageKey, JSON.stringify(newTickets));
       setTickets(newTickets);
     } catch (error) {
