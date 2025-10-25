@@ -42,11 +42,11 @@ const Header = () => {
               </div>
             ) : (
               <div className="nav-guest">
-                <Link to="/auth/login" className="nav-link">
-                  Login
+                <Link to="/dashboard" className="nav-link">
+                  Dashboard
                 </Link>
-                <Link to="/auth/signup" className="btn btn-primary btn-sm">
-                  Get Started
+                <Link to="/tickets" className="nav-link">
+                  Tickets
                 </Link>
               </div>
             )}
@@ -79,11 +79,11 @@ const Header = () => {
               </>
             ) : (
               <>
-                <Link to="/auth/login" onClick={() => setIsMenuOpen(false)}>
-                  Login
+                <Link to="/dashboard" className="nav-link">
+                  Dashboard
                 </Link>
-                <Link to="/auth/signup" onClick={() => setIsMenuOpen(false)}>
-                  Get Started
+                <Link to="/tickets" className="nav-link">
+                  Tickets
                 </Link>
               </>
             )}
